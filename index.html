@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FlashLearn - Interactive Flashcard Quizzer</title>
+
+    <!-- ================= CSS ================= -->
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            background: #172554;
+            color: white;
+            padding: 18px 8%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: #93c5fd;
+        }
+
+        /* Hero */
+
+        .hero {
+            min-height: 480px;
+            padding: 80px 8%;
+
+            display: flex;
+            align-items: center;
+
+            background: linear-gradient(
+                135deg,
+                #dbeafe,
+                #ffffff
+            );
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            line-height: 1.2;
+            color: #172554;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .start-btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 13px 25px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .start-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Topics */
+
+        .topics {
+            padding: 70px 8%;
+            text-align: center;
+        }
+
+        .topics h2,
+        .learning h2,
+        .quiz h2,
+        .about h2 {
+            color: #172554;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .topic-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .topic-card {
+            width: 290px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+
+            transition: 0.3s;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .topic-icon {
+            font-size: 40px;
+        }
+
+        .topic-card h3 {
+            margin: 12px 0;
+            color: #172554;
+            font-size: 24px;
+        }
+
+        .topic-card p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+        }
+
+        .topic-card button,
+        .quiz-start,
+        .result button {
+            background: #2563eb;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .topic-card button:hover,
+        .quiz-start:hover,
+        .result button:hover {
+            background: #1d4ed8;
+        }
+
+        /* Learning */
+
+        .learning {
+            display: none;
+            padding: 70px 8%;
+            text-align: center;
+            background: #eaf1ff;
+        }
+
+        #card-count {
+            color: #666;
+            margin: 10px 0 25px;
+        }
+
+        /* Flashcard */
+
+        .flashcard-container {
+            width: 500px;
+            height: 280px;
+            margin: auto;
+            perspective: 1000px;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+
+            transform-style: preserve-3d;
+            transition: 0.6s;
+
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+
+            width: 100%;
+            height: 100%;
+
+            background: white;
+            border-radius: 15px;
+
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px;
+
+            backface-visibility: hidden;
+        }
+
+        .card-front span,
+        .card-back span {
+            color: #2563eb;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .card-front h3,
+        .card-back h3 {
+            color: #172554;
+            font-size: 23px;
+        }
+
+        .card-front p {
+            color: #777;
+            margin-top: 15px;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Controls */
+
+        .controls {
+            margin-top: 25px;
+
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .controls button {
+            background: #172554;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+        }
+
+        .controls button:hover {
+            background: #1e3a8a;
+        }
+
+        .quiz-start {
+            margin-top: 25px;
+        }
+
+        /* Quiz */
+
+        .quiz {
+            display: none;
+            padding: 70px 8%;
+            text-align: center;
+        }
+
+        #quiz-progress {
+            color: #666;
+            margin: 10px 0 25px;
+        }
+
+        .quiz-box {
+            max-width: 650px;
+            margin: auto;
+
+            background: white;
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .quiz-box h3 {
+            color: #172554;
+            font-size: 21px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            display: block;
+            width: 100%;
+
+            text-align: left;
+
+            background: #f1f5f9;
+
+            padding: 13px;
+            margin: 10px 0;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+        }
+
+        .option:hover {
+            border: 2px solid #2563eb;
+        }
+
+        .option.selected {
+            background: #dbeafe;
+            border: 2px solid #2563eb;
+        }
+
+        #next-question {
+            margin-top: 20px;
+
+            background: #2563eb;
+            color: white;
+
+            padding: 11px 25px;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+        }
+
+        /* Result */
+
+        .result {
+            display: none;
+
+            max-width: 500px;
+            margin: 30px auto 0;
+
+            background: white;
+            padding: 30px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .result h2 {
+            color: #172554;
+        }
+
+        .result p {
+            font-size: 20px;
+            margin: 15px 0;
+        }
+
+        /* About */
+
+        .about {
+            padding: 70px 8%;
+            text-align: center;
+            background: white;
+        }
+
+        .about p {
+            max-width: 700px;
+            margin: 15px auto;
+            color: #666;
+        }
+
+        /* Footer */
+
+        footer {
+            background: #172554;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Responsive */
+
+        @media(max-width: 700px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .flashcard-container {
+                width: 90%;
+                height: 300px;
+            }
+
+            .controls {
+                flex-wrap: wrap;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            FlashLearn
+        </div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#topics">Topics</a>
+            <a href="#about">About</a>
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HOME ================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <h1>
+                Learn Smarter.<br>
+                Remember More.
+            </h1>
+
+            <p>
+                Master important concepts using interactive
+                flashcards and test your knowledge with quizzes.
+            </p>
+
+            <a href="#topics" class="start-btn">
+                Start Learning
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= TOPICS ================= -->
+
+    <section class="topics" id="topics">
+
+        <h2>Choose a Topic</h2>
+
+        <p class="subtitle">
+            Select a topic to start learning.
+        </p>
+
+
+        <div class="topic-container">
+
+            <div class="topic-card">
+
+                <div class="topic-icon">🌐</div>
+
+                <h3>HTML</h3>
+
+                <p>
+                    Learn webpage structure, elements,
+                    tags and semantic HTML.
+                </p>
+
+                <button onclick="openTopic('HTML')">
+                    Start HTML
+                </button>
+
+            </div>
+
+
+            <div class="topic-card">
+
+                <div class="topic-icon">🎨</div>
+
+                <h3>CSS</h3>
+
+                <p>
+                    Learn styling, colors, layouts,
+                    selectors and responsive design.
+                </p>
+
+                <button onclick="openTopic('CSS')">
+                    Start CSS
+                </button>
+
+            </div>
+
+
+            <div class="topic-card">
+
+                <div class="topic-icon">⚡</div>
+
+                <h3>JavaScript</h3>
+
+                <p>
+                    Learn variables, functions, DOM,
+                    events and basic programming.
+                </p>
+
+                <button onclick="openTopic('JavaScript')">
+                    Start JavaScript
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FLASHCARDS ================= -->
+
+    <section class="learning" id="learning">
+
+        <h2 id="topic-title">
+            HTML Flashcards
+        </h2>
+
+        <p id="card-count">
+            Card 1 of 5
+        </p>
+
+
+        <div class="flashcard-container">
+
+            <div class="flashcard" id="flashcard"
+                 onclick="flipCard()">
+
+                <div class="card-front">
+
+                    <span>QUESTION</span>
+
+                    <h3 id="question">
+                        What is HTML?
+                    </h3>
+
+                    <p>
+                        Click the card to see the answer
+                    </p>
+
+                </div>
+
+
+                <div class="card-back">
+
+                    <span>ANSWER</span>
+
+                    <h3 id="answer">
+                        HTML is used to create
+                        webpage structure.
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="controls">
+
+            <button onclick="previousCard()">
+                ← Previous
+            </button>
+
+            <button onclick="flipCard()">
+                Flip Card
+            </button>
+
+            <button onclick="nextCard()">
+                Next →
+            </button>
+
+        </div>
+
+
+        <button class="quiz-start"
+                onclick="startQuiz()">
+
+            Start Quiz
+
+        </button>
+
+    </section>
+
+
+    <!-- ================= QUIZ ================= -->
+
+    <section class="quiz" id="quiz">
+
+        <h2 id="quiz-title">
+            HTML Quiz
+        </h2>
+
+        <p id="quiz-progress">
+            Question 1 of 5
+        </p>
+
+
+        <div class="quiz-box">
+
+            <h3 id="quiz-question">
+                Question
+            </h3>
+
+            <div id="options"></div>
+
+            <button id="next-question"
+                    onclick="nextQuestion()">
+
+                Next Question
+
+            </button>
+
+        </div>
+
+
+        <div class="result" id="result">
+
+            <h2>
+                Quiz Completed!
+            </h2>
+
+            <p id="score"></p>
+
+            <button onclick="startQuiz()">
+                Try Again
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section class="about" id="about">
+
+        <h2>About FlashLearn</h2>
+
+        <p>
+            FlashLearn is an interactive learning platform
+            designed to help students understand important
+            web development concepts using flashcards and quizzes.
+        </p>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 FlashLearn | Interactive Flashcard Quizzer
+        </p>
+
+    </footer>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        /* ================= FLASHCARD DATA ================= */
+
+        const flashcards = {
+
+            HTML: [
+
+                {
+                    question: "What is HTML?",
+                    answer: "HTML stands for HyperText Markup Language and is used to create the structure of web pages."
+                },
+
+                {
+                    question: "What does the <h1> tag do?",
+                    answer: "The <h1> tag is used to create the main heading of a webpage."
+                },
+
+                {
+                    question: "What is an HTML element?",
+                    answer: "An HTML element usually contains an opening tag, content and a closing tag."
+                },
+
+                {
+                    question: "What is the purpose of the <a> tag?",
+                    answer: "The <a> tag is used to create hyperlinks."
+                },
+
+                {
+                    question: "What is semantic HTML?",
+                    answer: "Semantic HTML uses meaningful tags such as header, nav, section and footer."
+                }
+
+            ],
+
+
+            CSS: [
+
+                {
+                    question: "What is CSS?",
+                    answer: "CSS stands for Cascading Style Sheets and is used to style HTML elements."
+                },
+
+                {
+                    question: "What is a CSS selector?",
+                    answer: "A selector is used to select HTML elements that we want to style."
+                },
+
+                {
+                    question: "What is the CSS box model?",
+                    answer: "The box model consists of content, padding, border and margin."
+                },
+
+                {
+                    question: "What does display: flex do?",
+                    answer: "Flexbox is used to create flexible layouts and arrange elements."
+                },
+
+                {
+                    question: "What is a CSS class?",
+                    answer: "A class allows us to apply the same CSS styles to one or more elements."
+                }
+
+            ],
+
+
+            JavaScript: [
+
+                {
+                    question: "What is JavaScript?",
+                    answer: "JavaScript is a programming language used to make webpages interactive."
+                },
+
+                {
+                    question: "What is a variable?",
+                    answer: "A variable is used to store data that can be used later in a program."
+                },
+
+                {
+                    question: "What is a function?",
+                    answer: "A function is a reusable block of code that performs a particular task."
+                },
+
+                {
+                    question: "What is the DOM?",
+                    answer: "DOM stands for Document Object Model and allows JavaScript to interact with HTML."
+                },
+
+                {
+                    question: "What is an event?",
+                    answer: "An event is an action such as a click, key press or mouse movement."
+                }
+
+            ]
+
+        };
+
+
+        /* ================= QUIZ DATA ================= */
+
+        const quizzes = {
+
+            HTML: [
+
+                {
+                    question: "What does HTML stand for?",
+
+                    options: [
+                        "Hyper Text Markup Language",
+                        "High Text Machine Language",
+                        "Hyper Tool Multi Language",
+                        "Home Text Markup Language"
+                    ],
+
+                    answer: 0
+                },
+
+                {
+                    question: "Which tag is used for the largest heading?",
+
+                    options: [
+                        "<head>",
+                        "<h1>",
+                        "<heading>",
+                        "<h6>"
+                    ],
+
+                    answer: 1
+                },
+
+                {
+                    question: "Which tag is used to create a link?",
+
+                    options: [
+                        "<link>",
+                        "<url>",
+                        "<a>",
+                        "<href>"
+                    ],
+
+                    answer: 2
+                },
+
+                {
+                    question: "Which tag is used to insert an image?",
+
+                    options: [
+                        "<image>",
+                        "<img>",
+                        "<pic>",
+                        "<src>"
+                    ],
+
+                    answer: 1
+                },
+
+                {
+                    question: "Which tag creates a paragraph?",
+
+                    options: [
+                        "<p>",
+                        "<para>",
+                        "<text>",
+                        "<paragraph>"
+                    ],
+
+                    answer: 0
+                }
+
+            ],
+
+
+            CSS: [
+
+                {
+                    question: "What does CSS stand for?",
+
+                    options: [
+                        "Computer Style Sheets",
+                        "Cascading Style Sheets",
+                        "Creative Style System",
+                        "Colorful Style Sheets"
+                    ],
+
+                    answer: 1
+                },
+
+                {
+                    question: "Which property changes text color?",
+
+                    options: [
+                        "font-color",
+                        "text-color",
+                        "color",
+                        "foreground"
+                    ],
+
+                    answer: 2
+                },
+
+                {
+                    question: "Which property changes background color?",
+
+                    options: [
+                        "background-color",
+                        "bg-color",
+                        "color-background",
+                        "background"
+                    ],
+
+                    answer: 0
+                },
+
+                {
+                    question: "Which display value is used for Flexbox?",
+
+                    options: [
+                        "display: block",
+                        "display: flex",
+                        "display: grid",
+                        "display: inline"
+                    ],
+
+                    answer: 1
+                },
+
+                {
+                    question: "Which symbol represents a CSS class?",
+
+                    options: [
+                        "#",
+                        ".",
+                        "@",
+                        "$"
+                    ],
+
+                    answer: 1
+                }
+
+            ],
+
+
+            JavaScript: [
+
+                {
+                    question: "JavaScript is mainly used to make webpages:",
+
+                    options: [
+                        "Interactive",
+                        "Only colorful",
+                        "Only responsive",
+                        "Static"
+                    ],
+
+                    answer: 0
+                },
+
+                {
+                    question: "Which keyword can declare a variable?",
+
+                    options: [
+                        "variable",
+                        "var",
+                        "define",
+                        "integer"
+                    ],
+
+                    answer: 1
+                },
+
+                {
+                    question: "Which symbol is commonly used for comments?",
+
+                    options: [
+                        "//",
+                        "##",
+                        "<!--",
+                        "**"
+                    ],
+
+                    answer: 0
+                },
+
+                {
+                    question: "Which method selects an element by ID?",
+
+                    options: [
+                        "getElementById()",
+                        "selectId()",
+                        "getId()",
+                        "findId()"
+                    ],
+
+                    answer: 0
+                },
+
+                {
+                    question: "Which keyword creates a function?",
+
+                    options: [
+                        "function",
+                        "method",
+                        "define",
+                        "func"
+                    ],
+
+                    answer: 0
+                }
+
+            ]
+
+        };
+
+
+        /* ================= VARIABLES ================= */
+
+        let currentTopic = "HTML";
+
+        let currentCard = 0;
+
+        let currentQuestion = 0;
+
+        let score = 0;
+
+        let selectedAnswer = null;
+
+
+        /* ================= OPEN TOPIC ================= */
+
+        function openTopic(topic) {
+
+            currentTopic = topic;
+
+            currentCard = 0;
+
+            currentQuestion = 0;
+
+            score = 0;
+
+            document.getElementById("learning")
+                .style.display = "block";
+
+            document.getElementById("quiz")
+                .style.display = "none";
+
+            document.getElementById("topic-title")
+                .textContent = topic + " Flashcards";
+
+            showCard();
+
+            document.getElementById("learning")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+        }
+
+
+        /* ================= SHOW CARD ================= */
+
+        function showCard() {
+
+            let card =
+                flashcards[currentTopic][currentCard];
+
+            document.getElementById("question")
+                .textContent = card.question;
+
+            document.getElementById("answer")
+                .textContent = card.answer;
+
+            document.getElementById("card-count")
+                .textContent =
+                "Card " +
+                (currentCard + 1) +
+                " of " +
+                flashcards[currentTopic].length;
+
+            document.getElementById("flashcard")
+                .classList.remove("flipped");
+        }
+
+
+        /* ================= FLIP CARD ================= */
+
+        function flipCard() {
+
+            document.getElementById("flashcard")
+                .classList.toggle("flipped");
+        }
+
+
+        /* ================= NEXT CARD ================= */
+
+        function nextCard() {
+
+            currentCard++;
+
+            if (
+                currentCard >=
+                flashcards[currentTopic].length
+            ) {
+                currentCard = 0;
+            }
+
+            showCard();
+        }
+
+
+        /* ================= PREVIOUS CARD ================= */
+
+        function previousCard() {
+
+            currentCard--;
+
+            if (currentCard < 0) {
+
+                currentCard =
+                    flashcards[currentTopic].length - 1;
+            }
+
+            showCard();
+        }
+
+
+        /* ================= START QUIZ ================= */
+
+        function startQuiz() {
+
+            currentQuestion = 0;
+
+            score = 0;
+
+            selectedAnswer = null;
+
+            document.getElementById("learning")
+                .style.display = "none";
+
+            document.getElementById("quiz")
+                .style.display = "block";
+
+            document.getElementById("result")
+                .style.display = "none";
+
+            document.querySelector(".quiz-box")
+                .style.display = "block";
+
+            document.getElementById("quiz-title")
+                .textContent = currentTopic + " Quiz";
+
+            showQuestion();
+
+            document.getElementById("quiz")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+        }
+
+
+        /* ================= SHOW QUESTION ================= */
+
+        function showQuestion() {
+
+            let quiz =
+                quizzes[currentTopic][currentQuestion];
+
+            selectedAnswer = null;
+
+            document.getElementById("quiz-question")
+                .textContent = quiz.question;
+
+            document.getElementById("quiz-progress")
+                .textContent =
+                "Question " +
+                (currentQuestion + 1) +
+                " of " +
+                quizzes[currentTopic].length;
+
+
+            let options =
+                document.getElementById("options");
+
+            options.innerHTML = "";
+
+
+            quiz.options.forEach(function(option, index) {
+
+                let button =
+                    document.createElement("button");
+
+                button.textContent = option;
+
+                button.className = "option";
+
+
+                button.onclick = function() {
+
+                    selectAnswer(index, button);
+
+                };
+
+
+                options.appendChild(button);
+
+            });
+
+        }
+
+
+        /* ================= SELECT ANSWER ================= */
+
+        function selectAnswer(index, button) {
+
+            selectedAnswer = index;
+
+            let options =
+                document.querySelectorAll(".option");
+
+            options.forEach(function(option) {
+
+                option.classList.remove("selected");
+
+            });
+
+            button.classList.add("selected");
+        }
+
+
+        /* ================= NEXT QUESTION ================= */
+
+        function nextQuestion() {
+
+            if (selectedAnswer === null) {
+
+                alert("Please select an answer first.");
+
+                return;
+            }
+
+
+            let correctAnswer =
+                quizzes[currentTopic][currentQuestion].answer;
+
+
+            if (selectedAnswer === correctAnswer) {
+
+                score++;
+
+            }
+
+
+            currentQuestion++;
+
+
+            if (
+                currentQuestion <
+                quizzes[currentTopic].length
+            ) {
+
+                showQuestion();
+
+            } else {
+
+                showResult();
+
+            }
+
+        }
+
+
+        /* ================= RESULT ================= */
+
+        function showResult() {
+
+            document.querySelector(".quiz-box")
+                .style.display = "none";
+
+            document.getElementById("result")
+                .style.display = "block";
+
+
+            let total =
+                quizzes[currentTopic].length;
+
+
+            document.getElementById("score")
+                .textContent =
+                "You scored " +
+                score +
+                " out of " +
+                total;
+        }
+
+    </script>
+
+</body>
+</html>

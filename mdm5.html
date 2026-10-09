@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Foodie's Corner | Our Menu</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .food-card {
+            transition: all 0.3s ease;
+        }
+
+        .food-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .food-image {
+            transition: transform 0.4s ease;
+        }
+
+        .food-card:hover .food-image {
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+
+<body class="bg-orange-50 text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-5
+                    flex flex-col sm:flex-row
+                    justify-between items-center gap-4">
+
+            <h1 class="text-2xl font-extrabold text-orange-600">
+                🍽 Foodie's Corner
+            </h1>
+
+            <div class="flex flex-wrap justify-center gap-6 font-medium text-sm">
+                <a href="#home" class="hover:text-orange-600 transition">Home</a>
+                <a href="#menu" class="hover:text-orange-600 transition">Our Menu</a>
+                <a href="#about" class="hover:text-orange-600 transition">About Us</a>
+                <a href="#contact" class="hover:text-orange-600 transition">Contact</a>
+            </div>
+
+            <a href="#menu"
+               class="bg-orange-500 text-white px-5 py-2 rounded-full
+                      hover:bg-orange-600 transition">
+                Explore Menu
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home"
+            class="bg-gradient-to-r from-orange-500 to-red-500 text-white">
+
+        <div class="max-w-7xl mx-auto px-6 py-16 md:py-24
+                    flex flex-col md:flex-row items-center
+                    justify-between gap-10">
+
+            <div class="text-center md:text-left md:w-1/2">
+
+                <span class="bg-white/20 px-4 py-2 rounded-full text-sm">
+                    FRESH • DELICIOUS • MADE WITH LOVE
+                </span>
+
+                <h2 class="text-4xl md:text-6xl font-extrabold
+                           leading-tight mt-6">
+                    Good Food,
+                    <span class="text-yellow-300">Good Mood!</span>
+                </h2>
+
+                <p class="text-orange-50 mt-6 leading-8 max-w-lg mx-auto md:mx-0">
+                    Discover delicious flavors made with fresh ingredients.
+                    From cheesy pizzas to tasty Indian meals, there's
+                    something special for everyone.
+                </p>
+
+                <a href="#menu"
+                   class="inline-block mt-8 bg-white text-orange-600
+                          font-bold px-8 py-3 rounded-xl
+                          hover:bg-yellow-300 hover:text-gray-900 transition">
+                    View Our Menu →
+                </a>
+            </div>
+
+            <div class="md:w-1/2 flex justify-center">
+                <img
+                    src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=85"
+                    alt="Fresh and delicious food"
+                    class="w-full max-w-lg h-72 md:h-96 object-cover
+                           rounded-3xl shadow-2xl">
+            </div>
+        </div>
+    </header>
+
+    <!-- Food Menu Section -->
+    <main id="menu" class="max-w-7xl mx-auto px-6 py-20">
+
+        <div class="text-center mb-12">
+            <p class="text-orange-600 uppercase tracking-widest
+                      font-semibold text-sm">
+                Taste the Difference
+            </p>
+
+            <h2 class="text-3xl md:text-5xl font-extrabold mt-3">
+                Our Popular Dishes
+            </h2>
+
+            <p class="text-gray-500 mt-4 max-w-2xl mx-auto">
+                Explore our chef's favorites, prepared fresh and served
+                with love. Choose your favorite dish below!
+            </p>
+        </div>
+
+        <!-- Tailwind CSS Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+                    xl:grid-cols-4 gap-8">
+
+            <!-- Food Card 1 -->
+            <article class="food-card bg-white rounded-2xl overflow-hidden
+                            shadow-md border border-orange-100">
+
+                <div class="overflow-hidden relative">
+                    <span class="absolute top-4 left-4 z-10 bg-red-500
+                                 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        BESTSELLER
+                    </span>
+
+                    <img
+                        src="https://images.unsplash.com/photo- pizza?auto=format&fit=crop&w=700&q=85"
+                        alt="Cheesy pizza"
+                        onerror="this.src='https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=700&q=85'"
+                        class="food-image w-full h-52 object-cover">
+                </div>
+
+                <div class="p-5">
+                    <div class="flex justify-between items-center gap-2">
+                        <h3 class="text-xl font-bold">Margherita Pizza</h3>
+                        <span class="text-orange-600 font-bold">₹249</span>
+                    </div>
+
+                    <p class="text-gray-500 text-sm mt-3 leading-6">
+                        Classic Italian pizza topped with melted cheese,
+                        fresh basil, and rich tomato sauce.
+                    </p>
+
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-yellow-500 text-sm">★ 4.8</span>
+                        <span class="text-xs text-gray-400">⏱ 20 min</span>
+                    </div>
+
+                    <button onclick="orderDish('Margherita Pizza', 249)"
+                            class="w-full mt-5 bg-orange-500 text-white
+                                   py-3 rounded-lg font-semibold
+                                   hover:bg-orange-600 transition">
+                        Order Now →
+                    </button>
+                </div>
+            </article>
+
+            <!-- Food Card 2 -->
+            <article class="food-card bg-white rounded-2xl overflow-hidden
+                            shadow-md border border-orange-100">
+
+                <div class="overflow-hidden relative">
+                    <span class="absolute top-4 left-4 z-10 bg-green-600
+                                 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        VEG SPECIAL
+                    </span>
+
+                    <img
+                        src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=700&q=85"
+                        alt="Indian paneer curry"
+                        class="food-image w-full h-52 object-cover">
+                </div>
+
+                <div class="p-5">
+                    <div class="flex justify-between items-center gap-2">
+                        <h3 class="text-xl font-bold">Paneer Masala</h3>
+                        <span class="text-orange-600 font-bold">₹199</span>
+                    </div>
+
+                    <p class="text-gray-500 text-sm mt-3 leading-6">
+                        Soft paneer cubes cooked in a creamy,
+                        flavorful Indian tomato gravy.
+                    </p>
+
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-yellow-500 text-sm">★ 4.7</span>
+                        <span class="text-xs text-gray-400">⏱ 25 min</span>
+                    </div>
+
+                    <button onclick="orderDish('Paneer Masala', 199)"
+                            class="w-full mt-5 bg-orange-500 text-white
+                                   py-3 rounded-lg font-semibold
+                                   hover:bg-orange-600 transition">
+                        Order Now →
+                    </button>
+                </div>
+            </article>
+
+            <!-- Food Card 3 -->
+            <article class="food-card bg-white rounded-2xl overflow-hidden
+                            shadow-md border border-orange-100">
+
+                <div class="overflow-hidden">
+                    <img
+                        src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=85"
+                        alt="Fresh burger"
+                        class="food-image w-full h-52 object-cover">
+                </div>
+
+                <div class="p-5">
+                    <div class="flex justify-between items-center gap-2">
+                        <h3 class="text-xl font-bold">Classic Burger</h3>
+                        <span class="text-orange-600 font-bold">₹149</span>
+                    </div>
+
+                    <p class="text-gray-500 text-sm mt-3 leading-6">
+                        A juicy burger layered with fresh vegetables,
+                        cheese, and our special house sauce.
+                    </p>
+
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-yellow-500 text-sm">★ 4.6</span>
+                        <span class="text-xs text-gray-400">⏱ 15 min</span>
+                    </div>
+
+                    <button onclick="orderDish('Classic Burger', 149)"
+                            class="w-full mt-5 bg-orange-500 text-white
+                                   py-3 rounded-lg font-semibold
+                                   hover:bg-orange-600 transition">
+                        Order Now →
+                    </button>
+                </div>
+            </article>
+
+            <!-- Food Card 4 -->
+            <article class="food-card bg-white rounded-2xl overflow-hidden
+                            shadow-md border border-orange-100">
+
+                <div class="overflow-hidden">
+                    <img
+                        src="https://images.unsplash.com/photo-1563379091339-03246963d96c?auto=format&fit=crop&w=700&q=85"
+                        alt="Delicious biryani"
+                        class="food-image w-full h-52 object-cover">
+                </div>
+
+                <div class="p-5">
+                    <div class="flex justify-between items-center gap-2">
+                        <h3 class="text-xl font-bold">Veg Biryani</h3>
+                        <span class="text-orange-600 font-bold">₹179</span>
+                    </div>
+
+                    <p class="text-gray-500 text-sm mt-3 leading-6">
+                        Aromatic basmati rice cooked with vegetables,
+                        traditional spices, and fresh herbs.
+                    </p>
+
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-yellow-500 text-sm">★ 4.9</span>
+                        <span class="text-xs text-gray-400">⏱ 25 min</span>
+                    </div>
+
+                    <button onclick="orderDish('Veg Biryani', 179)"
+                            class="w-full mt-5 bg-orange-500 text-white
+                                   py-3 rounded-lg font-semibold
+                                   hover:bg-orange-600 transition">
+                        Order Now →
+                    </button>
+                </div>
+            </article>
+
+            <!-- Food Card 5 -->
+            <article class="food-card bg-white rounded-2xl overflow-hidden
+                            shadow-md border border-orange-100">
+
+                <div class="overflow-hidden">
+                    <img
+                        src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=700&q=85"
+                        alt="Noodles with vegetables"
+                        class="food-image w-full h-52 object-cover">
+                </div>
+
+                <div class="p-5">
+                    <div class="flex justify-between items-center gap-2">
+                        <h3 class="text-xl font-bold">Hakka Noodles</h3>
+                        <span class="text-orange-600 font-bold">₹159</span>
+                    </div>
+
+                    <p class="text-gray-500 text-sm mt-3 leading-6">
+                        Stir-fried noodles tossed with crunchy vegetables
+                        and flavorful Indo-Chinese sauces.
+                    </p>
+
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-yellow-500 text-sm">★ 4.5</span>
+                        <span class="text-xs text-gray-400">⏱ 15 min</span>
+                    </div>
+
+                    <button onclick="orderDish('Hakka Noodles', 159)"
+                            class="w-full mt-5 bg-orange-500 text-white
+                                   py-3 rounded-lg font-semibold
+                                   hover:bg-orange-600 transition">
+                        Order Now →
+                    </button>
+                </div>
+            </article>
+
+            <!-- Food Card 6 -->
+            <article class="food-card bg-white rounded-2xl overflow-hidden
+                            shadow-md border border-orange-100">
+
+                <div class="overflow-hidden">
+                    <img
+                        src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=700&q=85"
+                        alt="Sweet dessert"
+                        class="food-image w-full h-52 object-cover">
+                </div>
+
+                <div class="p-5">
+                    <div class="flex justify-between items-center gap-2">
+                        <h3 class="text-xl font-bold">Sweet Dessert</h3>
+                        <span class="text-orange-600 font-bold">₹99</span>
+                    </div>
+
+                    <p class="text-gray-500 text-sm mt-3 leading-6">
+                        A delightful sweet treat made to complete
+                        your meal on a delicious note.
+                    </p>
+
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-yellow-500 text-sm">★ 4.7</span>
+                        <span class="text-xs text-gray-400">⏱ 10 min</span>
+                    </div>
+
+                    <button onclick="orderDish('Sweet Dessert', 99)"
+                            class="w-full mt-5 bg-orange-500 text-white
+                                   py-3 rounded-lg font-semibold
+                                   hover:bg-orange-600 transition">
+                        Order Now →
+                    </button>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Order Summary -->
+        <div id="order-message"
+             class="hidden max-w-xl mx-auto mt-10 p-5 rounded-xl
+                    bg-green-100 border border-green-300
+                    text-green-800 text-center"
+             role="status" aria-live="polite">
+        </div>
+
+    </main>
+
+    <!-- About Section -->
+    <section id="about" class="bg-white py-16 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold">
+                Fresh Ingredients, Better Taste
+            </h2>
+
+            <p class="text-gray-500 mt-5 leading-8">
+                At Foodie's Corner, we believe great food brings people
+                together. Our dishes are prepared with care, fresh
+                ingredients, and a passion for unforgettable flavors.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 text-white py-10 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-2xl font-extrabold text-orange-400">
+                🍽 Foodie's Corner
+            </h2>
+
+            <p class="text-gray-400 mt-3">
+                Delicious food, memorable moments.
+            </p>
+
+            <p class="text-gray-400 text-sm mt-4">
+                Contact: foodies@example.com
+            </p>
+
+            <p class="text-gray-500 text-sm mt-6">
+                © 2026 Foodie's Corner. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Demo Order Buttons -->
+    <script>
+        let orders = [];
+
+        function orderDish(name, price) {
+            orders.push({ name: name, price: price });
+
+            const total = orders.reduce(
+                (sum, item) => sum + item.price, 0
+            );
+
+            const message = document.getElementById("order-message");
+
+            message.innerHTML =
+                "<strong>Added successfully!</strong><br>" +
+                "Dish: " + name + "<br>" +
+                "Price: ₹" + price.toLocaleString("en-IN") + "<br>" +
+                "Items selected: " + orders.length + "<br>" +
+                "Total amount: ₹" + total.toLocaleString("en-IN");
+
+            message.classList.remove("hidden");
+            message.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+    </script>
+
+</body>
+</html>

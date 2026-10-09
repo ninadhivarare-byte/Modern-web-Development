@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Admission & Student Registration Portal</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    /* Custom transition effects */
+    .field-transition {
+      transition: all 0.25s ease-in-out;
+    }
+
+    /* Pulse animation for modal highlight */
+    @keyframes subtlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    
+    .animate-pulse-subtle {
+      animation: subtlePulse 2s infinite;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+  <!-- Top Navigation Header -->
+  <header class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/60 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/20">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold bg-gradient-to-r from-white via-slate-200 to-indigo-200 bg-clip-text text-transparent">Apex University</h1>
+          <p class="text-xs text-slate-400">Admissions Portal 2026-27</p>
+        </div>
+      </div>
+      <div class="hidden sm:flex items-center gap-6 text-sm font-medium text-slate-300">
+        <a href="#instructions" class="hover:text-indigo-400 transition-colors"><i class="fa-solid fa-circle-info mr-1.5"></i>Guidelines</a>
+        <a href="#support" class="hover:text-indigo-400 transition-colors"><i class="fa-solid fa-headset mr-1.5"></i>Helpdesk</a>
+        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-2"></span> Portal Open
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
+    
+    <!-- Hero / Title Banner -->
+    <div class="text-center mb-8">
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">Student Registration Form</h2>
+      <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
+        Complete your details carefully below. All mandatory fields marked with an asterisk (<span class="text-rose-400">*</span>) must be verified before submission.
+      </p>
+    </div>
+
+    <!-- Registration Card -->
+    <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl shadow-2xl p-6 sm:p-10 backdrop-blur-xl">
+      <form id="registrationForm" class="space-y-6" novalidate>
+        
+        <!-- Section: Personal Details -->
+        <div>
+          <h3 class="text-lg font-semibold text-indigo-400 border-b border-slate-700/80 pb-2 mb-6 flex items-center gap-2">
+            <i class="fa-solid fa-user-gear"></i> 1. Personal & Contact Information
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            
+            <!-- Full Name -->
+            <div class="relative">
+              <label for="fullName" class="block text-sm font-medium text-slate-200 mb-1">
+                Full Name <span class="text-rose-400">*</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-user"></i>
+                </div>
+                <input 
+                  type="text" 
+                  id="fullName" 
+                  name="fullName" 
+                  placeholder="e.g. John Doe" 
+                  class="field-transition w-full pl-10 pr-10 py-2.5 bg-slate-900/80 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                />
+                <div class="status-icon absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none hidden">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+              <p class="error-msg text-xs text-rose-400 mt-1.5 hidden flex items-center gap-1"></p>
+            </div>
+
+            <!-- Email Address -->
+            <div class="relative">
+              <label for="email" class="block text-sm font-medium text-slate-200 mb-1">
+                Email Address <span class="text-rose-400">*</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  placeholder="e.g. john.doe@example.com" 
+                  class="field-transition w-full pl-10 pr-10 py-2.5 bg-slate-900/80 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                />
+                <div class="status-icon absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none hidden"></div>
+              </div>
+              <p class="error-msg text-xs text-rose-400 mt-1.5 hidden flex items-center gap-1"></p>
+            </div>
+
+            <!-- Mobile Number -->
+            <div class="relative">
+              <label for="mobile" class="block text-sm font-medium text-slate-200 mb-1">
+                Mobile Number <span class="text-rose-400">*</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-phone"></i>
+                </div>
+                <input 
+                  type="tel" 
+                  id="mobile" 
+                  name="mobile" 
+                  maxLength="10"
+                  placeholder="e.g. 9876543210" 
+                  class="field-transition w-full pl-10 pr-10 py-2.5 bg-slate-900/80 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                />
+                <div class="status-icon absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none hidden"></div>
+              </div>
+              <p class="error-msg text-xs text-rose-400 mt-1.5 hidden flex items-center gap-1"></p>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="relative">
+              <label for="dob" class="block text-sm font-medium text-slate-200 mb-1">
+                Date of Birth <span class="text-rose-400">*</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-calendar-day"></i>
+                </div>
+                <input 
+                  type="date" 
+                  id="dob" 
+                  name="dob" 
+                  class="field-transition w-full pl-10 pr-10 py-2.5 bg-slate-900/80 border border-slate-700 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm [color-scheme:dark]"
+                />
+                <div class="status-icon absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none hidden"></div>
+              </div>
+              <p class="error-msg text-xs text-rose-400 mt-1.5 hidden flex items-center gap-1"></p>
+            </div>
+
+            <!-- Gender Selection -->
+            <div class="relative sm:col-span-2">
+              <label class="block text-sm font-medium text-slate-200 mb-2">
+                Gender <span class="text-rose-400">*</span>
+              </label>
+              <div class="flex flex-wrap gap-4 pt-1">
+                <label class="inline-flex items-center gap-2 cursor-pointer bg-slate-900/60 hover:bg-slate-900 border border-slate-700 px-4 py-2.5 rounded-xl transition-all">
+                  <input type="radio" name="gender" value="Male" class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600 focus:ring-indigo-500 focus:ring-offset-slate-900">
+                  <span class="text-sm text-slate-200"><i class="fa-solid fa-mars mr-1 text-sky-400"></i> Male</span>
+                </label>
+                <label class="inline-flex items-center gap-2 cursor-pointer bg-slate-900/60 hover:bg-slate-900 border border-slate-700 px-4 py-2.5 rounded-xl transition-all">
+                  <input type="radio" name="gender" value="Female" class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600 focus:ring-indigo-500 focus:ring-offset-slate-900">
+                  <span class="text-sm text-slate-200"><i class="fa-solid fa-venus mr-1 text-pink-400"></i> Female</span>
+                </label>
+                <label class="inline-flex items-center gap-2 cursor-pointer bg-slate-900/60 hover:bg-slate-900 border border-slate-700 px-4 py-2.5 rounded-xl transition-all">
+                  <input type="radio" name="gender" value="Other" class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600 focus:ring-indigo-500 focus:ring-offset-slate-900">
+                  <span class="text-sm text-slate-200"><i class="fa-solid fa-genderless mr-1 text-purple-400"></i> Other</span>
+                </label>
+              </div>
+              <p class="error-msg text-xs text-rose-400 mt-1.5 hidden flex items-center gap-1"></p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section: Academic & Security Details -->
+        <div class="pt-4">
+          <h3 class="text-lg font-semibold text-indigo-400 border-b border-slate-700/80 pb-2 mb-6 flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved"></i> 2. Academic Course & Account Security
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+            <!-- Course Selection Dropdown -->
+            <div class="relative sm:col-span-2">
+              <label for="course" class="block text-sm font-medium text-slate-200 mb-1">
+                Select Department / Course <span class="text-rose-400">*</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-book-open"></i>
+                </div>
+                <select 
+                  id="course" 
+                  name="course" 
+                  class="field-transition w-full pl-10 pr-10 py-2.5 bg-slate-900/80 border border-slate-700 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm appearance-none cursor-pointer"
+                >
+                  <option value="" disabled selected class="text-slate-500">-- Choose your desired course --</option>
+                  <option value="B.Tech Computer Science & Engineering">B.Tech - Computer Science & Engineering</option>
+                  <option value="B.Tech Artificial Intelligence & ML">B.Tech - Artificial Intelligence & Data Science</option>
+                  <option value="B.Sc Electronics & Robotics">B.Sc - Electronics & Robotics</option>
+                  <option value="Bachelor of Business Administration (BBA)">Bachelor of Business Administration (BBA)</option>
+                  <option value="M.Tech Software Engineering">M.Tech - Software Engineering</option>
+                </select>
+                <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-chevron-down text-xs"></i>
+                </div>
+              </div>
+              <p class="error-msg text-xs text-rose-400 mt-1.5 hidden flex items-center gap-1"></p>
+            </div>
+
+            <!-- Password -->
+            <div class="relative">
+              <label for="password" class="block text-sm font-medium text-slate-200 mb-1">
+                Password <span class="text-rose-400">*</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-lock"></i>
+                </div>
+                <input 
+                  type="password" 
+                  id="password" 
+                  name="password" 
+                  placeholder="Min 8 characters" 
+                  class="field-transition w-full pl-10 pr-10 py-2.5 bg-slate-900/80 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                />
+                <button 
+                  type="button" 
+                  id="togglePassword" 
+                  class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-200 transition-colors focus:outline-none"
+                  title="Show/Hide Password"
+                >
+                  <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                </button>
+              </div>
+
+              <!-- Password Strength Meter -->
+              <div class="mt-2">
+                <div class="flex justify-between items-center text-xs mb-1">
+                  <span class="text-slate-400">Strength:</span>
+                  <span id="strengthText" class="font-medium text-slate-500">None</span>
+                </div>
+                <div class="w-full bg-slate-700/60 rounded-full h-1.5 overflow-hidden">
+                  <div id="strengthBar" class="h-full w-0 transition-all duration-300 bg-slate-500"></div>
+                </div>
+              </div>
+              <p class="error-msg text-xs text-rose-400 mt-1.5 hidden flex items-center gap-1"></p>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="relative">
+              <label for="confirmPassword" class="block text-sm font-medium text-slate-200 mb-1">
+                Confirm Password <span class="text-rose-400">*</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-shield-check"></i>
+                </div>
+                <input 
+                  type="password" 
+                  id="confirmPassword" 
+                  name="confirmPassword" 
+                  placeholder="Re-enter password" 
+                  class="field-transition w-full pl-10 pr-10 py-2.5 bg-slate-900/80 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                />
+                <div class="status-icon absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none hidden"></div>
+              </div>
+              <p class="error-msg text-xs text-rose-400 mt-1.5 hidden flex items-center gap-1"></p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Terms and Conditions Checkbox -->
+        <div class="pt-2">
+          <label class="flex items-start gap-3 cursor-pointer group">
+            <input 
+              type="checkbox" 
+              id="terms" 
+              name="terms" 
+              class="mt-0.5 rounded bg-slate-900 border-slate-700 text-indigo-500 focus:ring-indigo-500 focus:ring-offset-slate-900 w-4 h-4 cursor-pointer"
+            />
+            <span class="text-xs sm:text-sm text-slate-300 group-hover:text-slate-200 transition-colors">
+              I certify that all provided details are true to the best of my knowledge and I agree to the 
+              <a href="javascript:void(0)" class="text-indigo-400 underline hover:text-indigo-300">Admission Guidelines</a> &amp; <a href="javascript:void(0)" class="text-indigo-400 underline hover:text-indigo-300">Privacy Policy</a>.
+            </span>
+          </label>
+          <p id="termsError" class="error-msg text-xs text-rose-400 mt-1.5 hidden flex items-center gap-1"></p>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="pt-4 flex flex-col sm:flex-row gap-4">
+          <button 
+            type="submit" 
+            class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-indigo-500/25 transition-all transform active:scale-[0.99] flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
+          >
+            <i class="fa-solid fa-paper-plane"></i> Submit Registration Form
+          </button>
+          <button 
+            type="button" 
+            id="resetBtn" 
+            class="bg-slate-700/60 hover:bg-slate-700 text-slate-300 font-medium py-3 px-6 rounded-xl border border-slate-600/60 transition-colors flex items-center justify-center gap-2 text-sm cursor-pointer"
+          >
+            <i class="fa-solid fa-rotate-left"></i> Reset Form
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- Success Summary Modal -->
+  <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl transform scale-95 transition-transform duration-300" id="modalCard">
+      
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 bg-emerald-500/20 border border-emerald-500/40 rounded-full flex items-center justify-center text-emerald-400 text-3xl mx-auto mb-3 animate-bounce">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white">Registration Successful!</h3>
+        <p class="text-slate-400 text-sm mt-1">Your admission application has been received successfully.</p>
+      </div>
+
+      <!-- Application Details Summary -->
+      <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-700/60 space-y-3 text-sm mb-6">
+        <div class="flex justify-between border-b border-slate-800 pb-2">
+          <span class="text-slate-400">Application Reference:</span>
+          <span id="summaryRef" class="font-mono text-indigo-400 font-semibold">#APX-98231</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-2">
+          <span class="text-slate-400">Student Name:</span>
+          <span id="summaryName" class="font-medium text-slate-200"></span>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-2">
+          <span class="text-slate-400">Email:</span>
+          <span id="summaryEmail" class="font-medium text-slate-200"></span>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-2">
+          <span class="text-slate-400">Mobile:</span>
+          <span id="summaryMobile" class="font-medium text-slate-200"></span>
+        </div>
+        <div class="flex justify-between border-b border-slate-800 pb-2">
+          <span class="text-slate-400">Course Selected:</span>
+          <span id="summaryCourse" class="font-medium text-slate-200 text-right"></span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-slate-400">Date of Birth:</span>
+          <span id="summaryDob" class="font-medium text-slate-200"></span>
+        </div>
+      </div>
+
+      <div class="flex gap-3">
+        <button 
+          id="closeModalBtn" 
+          class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-xl transition-colors cursor-pointer text-sm"
+        >
+          Close &amp; Return
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-800/40 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+    <p>&copy; 2026 Apex University Admissions Office. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // DOM Elements
+      const form = document.getElementById('registrationForm');
+      const fullName = document.getElementById('fullName');
+      const email = document.getElementById('email');
+      const mobile = document.getElementById('mobile');
+      const dob = document.getElementById('dob');
+      const course = document.getElementById('course');
+      const password = document.getElementById('password');
+      const confirmPassword = document.getElementById('confirmPassword');
+      const terms = document.getElementById('terms');
+      const resetBtn = document.getElementById('resetBtn');
+      
+      // Toggle Password Elements
+      const togglePasswordBtn = document.getElementById('togglePassword');
+      const eyeIcon = document.getElementById('eyeIcon');
+      
+      // Password Strength Elements
+      const strengthBar = document.getElementById('strengthBar');
+      const strengthText = document.getElementById('strengthText');
+      
+      // Modal Elements
+      const successModal = document.getElementById('successModal');
+      const modalCard = document.getElementById('modalCard');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+
+      // Regular Expression Patterns
+      const patterns = {
+        fullName: /^[A-Za-z\s]{3,50}$/, // Letters and spaces only, 3 to 50 chars
+        email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // Standard email pattern
+        mobile: /^[0-9]{10}$/ // Exactly 10 digits
+      };
+
+      // Toggle Password Visibility
+      togglePasswordBtn.addEventListener('click', () => {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        eyeIcon.className = type === 'password' ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+      });
+
+      // Validation Helper Functions
+      function showError(inputElement, message) {
+        const container = inputElement.closest('.relative') || inputElement.parentElement;
+        const parent = container.parentElement;
+        const errorMsg = parent.querySelector('.error-msg');
+        const statusIcon = container.querySelector('.status-icon');
+
+        // Style borders
+        inputElement.classList.remove('border-slate-700', 'border-emerald-500', 'focus:ring-indigo-500');
+        inputElement.classList.add('border-rose-500', 'focus:ring-rose-500');
+
+        // Show Error Message
+        if (errorMsg) {
+          errorMsg.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${message}`;
+          errorMsg.classList.remove('hidden');
+        }
+
+        // Show Red Cross Status Icon if element supports icon layout
+        if (statusIcon) {
+          statusIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500"></i>`;
+          statusIcon.classList.remove('hidden');
+        }
+      }
+
+      function showSuccess(inputElement) {
+        const container = inputElement.closest('.relative') || inputElement.parentElement;
+        const parent = container.parentElement;
+        const errorMsg = parent.querySelector('.error-msg');
+        const statusIcon = container.querySelector('.status-icon');
+
+        // Style borders
+        inputElement.classList.remove('border-slate-700', 'border-rose-500', 'focus:ring-rose-500');
+        inputElement.classList.add('border-emerald-500', 'focus:ring-emerald-500');
+
+        // Hide Error Message
+        if (errorMsg) {
+          errorMsg.classList.add('hidden');
+          errorMsg.innerHTML = '';
+        }
+
+        // Show Green Checkmark Status Icon
+        if (statusIcon) {
+          statusIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i>`;
+          statusIcon.classList.remove('hidden');
+        }
+      }
+
+      function resetFieldState(inputElement) {
+        const container = inputElement.closest('.relative') || inputElement.parentElement;
+        const parent = container.parentElement;
+        const errorMsg = parent.querySelector('.error-msg');
+        const statusIcon = container.querySelector('.status-icon');
+
+        inputElement.classList.remove('border-rose-500', 'border-emerald-500', 'focus:ring-rose-500', 'focus:ring-emerald-500');
+        inputElement.classList.add('border-slate-700', 'focus:ring-indigo-500');
+
+        if (errorMsg) errorMsg.classList.add('hidden');
+        if (statusIcon) statusIcon.classList.add('hidden');
+      }
+
+      // Individual Field Validations
+      function validateFullName() {
+        const val = fullName.value.trim();
+        if (!val) {
+          showError(fullName, 'Full Name is required');
+          return false;
+        } else if (!patterns.fullName.test(val)) {
+          showError(fullName, 'Name must contain only letters & spaces (min 3 chars)');
+          return false;
+        }
+        showSuccess(fullName);
+        return true;
+      }
+
+      function validateEmail() {
+        const val = email.value.trim();
+        if (!val) {
+          showError(email, 'Email address is required');
+          return false;
+        } else if (!patterns.email.test(val)) {
+          showError(email, 'Please enter a valid email address (e.g. name@domain.com)');
+          return false;
+        }
+        showSuccess(email);
+        return true;
+      }
+
+      function validateMobile() {
+        const val = mobile.value.trim();
+        if (!val) {
+          showError(mobile, 'Mobile number is required');
+          return false;
+        } else if (!patterns.mobile.test(val)) {
+          showError(mobile, 'Mobile number must be exactly 10 digits');
+          return false;
+        }
+        showSuccess(mobile);
+        return true;
+      }
+
+      function validateDob() {
+        const val = dob.value;
+        if (!val) {
+          showError(dob, 'Date of Birth is required');
+          return false;
+        }
+        
+        // Age limit verification (e.g. minimum 15 years old)
+        const birthDate = new Date(val);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+
+        if (age < 15) {
+          showError(dob, 'Student must be at least 15 years old to register');
+          return false;
+        }
+
+        showSuccess(dob);
+        return true;
+      }
+
+      function validateGender() {
+        const genderSelected = document.querySelector('input[name="gender"]:checked');
+        const errorMsg = document.querySelector('input[name="gender"]').closest('.relative').querySelector('.error-msg');
+        
+        if (!genderSelected) {
+          errorMsg.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Please select a gender option`;
+          errorMsg.classList.remove('hidden');
+          return false;
+        }
+        
+        errorMsg.classList.add('hidden');
+        return true;
+      }
+
+      function validateCourse() {
+        if (!course.value) {
+          showError(course, 'Please select a course or department');
+          return false;
+        }
+        showSuccess(course);
+        return true;
+      }
+
+      function updatePasswordStrength(val) {
+        let score = 0;
+        if (val.length >= 8) score++;
+        if (/[A-Z]/.test(val)) score++;
+        if (/[0-9]/.test(val)) score++;
+        if (/[^A-Za-z0-9]/.test(val)) score++;
+
+        if (val.length === 0) {
+          strengthBar.style.width = '0%';
+          strengthBar.className = 'h-full transition-all duration-300 bg-slate-500';
+          strengthText.textContent = 'None';
+          strengthText.className = 'font-medium text-slate-500';
+        } else if (score < 2) {
+          strengthBar.style.width = '25%';
+          strengthBar.className = 'h-full transition-all duration-300 bg-rose-500';
+          strengthText.textContent = 'Weak';
+          strengthText.className = 'font-medium text-rose-400';
+        } else if (score === 2 || score === 3) {
+          strengthBar.style.width = '65%';
+          strengthBar.className = 'h-full transition-all duration-300 bg-amber-500';
+          strengthText.textContent = 'Medium';
+          strengthText.className = 'font-medium text-amber-400';
+        } else {
+          strengthBar.style.width = '100%';
+          strengthBar.className = 'h-full transition-all duration-300 bg-emerald-500';
+          strengthText.textContent = 'Strong';
+          strengthText.className = 'font-medium text-emerald-400';
+        }
+      }
+
+      function validatePassword() {
+        const val = password.value;
+        updatePasswordStrength(val);
+
+        if (!val) {
+          showError(password, 'Password is required');
+          return false;
+        } else if (val.length < 8) {
+          showError(password, 'Password must be at least 8 characters long');
+          return false;
+        }
+        showSuccess(password);
+        
+        // Also validate confirm password if it contains text
+        if (confirmPassword.value.length > 0) {
+          validateConfirmPassword();
+        }
+        
+        return true;
+      }
+
+      function validateConfirmPassword() {
+        const val = confirmPassword.value;
+        if (!val) {
+          showError(confirmPassword, 'Please confirm your password');
+          return false;
+        } else if (val !== password.value) {
+          showError(confirmPassword, 'Passwords do not match');
+          return false;
+        }
+        showSuccess(confirmPassword);
+        return true;
+      }
+
+      function validateTerms() {
+        const termsError = document.getElementById('termsError');
+        if (!terms.checked) {
+          termsError.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> You must accept the terms &amp; conditions to proceed`;
+          termsError.classList.remove('hidden');
+          return false;
+        }
+        termsError.classList.add('hidden');
+        return true;
+      }
+
+      // Real-time Event Listeners (On Blur & Input)
+      fullName.addEventListener('blur', validateFullName);
+      fullName.addEventListener('input', () => { if (fullName.classList.contains('border-rose-500')) validateFullName(); });
+
+      email.addEventListener('blur', validateEmail);
+      email.addEventListener('input', () => { if (email.classList.contains('border-rose-500')) validateEmail(); });
+
+      mobile.addEventListener('blur', validateMobile);
+      mobile.addEventListener('input', (e) => {
+        // Limit to numbers only
+        e.target.value = e.target.value.replace(/\D/g, '');
+        if (mobile.classList.contains('border-rose-500')) validateMobile();
+      });
+
+      dob.addEventListener('change', validateDob);
+      course.addEventListener('change', validateCourse);
+
+      password.addEventListener('input', () => {
+        updatePasswordStrength(password.value);
+        if (password.classList.contains('border-rose-500')) validatePassword();
+      });
+      password.addEventListener('blur', validatePassword);
+
+      confirmPassword.addEventListener('input', () => {
+        if (confirmPassword.classList.contains('border-rose-500')) validateConfirmPassword();
+      });
+      confirmPassword.addEventListener('blur', validateConfirmPassword);
+
+      terms.addEventListener('change', validateTerms);
+
+      document.querySelectorAll('input[name="gender"]').forEach(radio => {
+        radio.addEventListener('change', validateGender);
+      });
+
+      // Reset Form Logic
+      resetBtn.addEventListener('click', () => {
+        form.reset();
+        [fullName, email, mobile, dob, course, password, confirmPassword].forEach(resetFieldState);
+        updatePasswordStrength('');
+        document.getElementById('termsError').classList.add('hidden');
+        const genderError = document.querySelector('input[name="gender"]').closest('.relative').querySelector('.error-msg');
+        if (genderError) genderError.classList.add('hidden');
+      });
+
+      // Submit Form Logic
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Validate all fields on submit
+        const isNameValid = validateFullName();
+        const isEmailValid = validateEmail();
+        const isMobileValid = validateMobile();
+        const isDobValid = validateDob();
+        const isGenderValid = validateGender();
+        const isCourseValid = validateCourse();
+        const isPasswordValid = validatePassword();
+        const isConfirmPasswordValid = validateConfirmPassword();
+        const isTermsValid = validateTerms();
+
+        const isFormValid = isNameValid && isEmailValid && isMobileValid && isDobValid && 
+                            isGenderValid && isCourseValid && isPasswordValid && 
+                            isConfirmPasswordValid && isTermsValid;
+
+        if (isFormValid) {
+          // Fill Modal Summary Details
+          document.getElementById('summaryRef').textContent = `#APX-${Math.floor(10000 + Math.random() * 90000)}`;
+          document.getElementById('summaryName').textContent = fullName.value.trim();
+          document.getElementById('summaryEmail').textContent = email.value.trim();
+          document.getElementById('summaryMobile').textContent = mobile.value.trim();
+          document.getElementById('summaryCourse').textContent = course.value;
+          document.getElementById('summaryDob').textContent = dob.value;
+
+          // Open Modal with Smooth Animation
+          successModal.classList.remove('opacity-0', 'pointer-events-none');
+          modalCard.classList.remove('scale-95');
+          modalCard.classList.add('scale-100');
+        } else {
+          // Scroll to the first error
+          const firstError = document.querySelector('.border-rose-500, .error-msg:not(.hidden)');
+          if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+      });
+
+      // Close Modal Logic
+      closeModalBtn.addEventListener('click', () => {
+        successModal.classList.add('opacity-0', 'pointer-events-none');
+        modalCard.classList.remove('scale-100');
+        modalCard.classList.add('scale-95');
+        
+        // Reset form after successful completion
+        form.reset();
+        [fullName, email, mobile, dob, course, password, confirmPassword].forEach(resetFieldState);
+        updatePasswordStrength('');
+      });
+    });
+  </script>
+</body>
+</html>

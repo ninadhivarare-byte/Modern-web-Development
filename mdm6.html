@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Grade Calculator</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .result-box {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100
+             flex items-center justify-center p-4">
+
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl p-6 sm:p-8">
+
+        <!-- Heading -->
+        <div class="text-center mb-7">
+            <div class="text-5xl mb-3">🎓</div>
+
+            <h1 class="text-2xl sm:text-3xl font-bold text-blue-700">
+                Student Grade Calculator
+            </h1>
+
+            <p class="text-gray-500 mt-2 text-sm">
+                Enter marks to calculate the student's result.
+            </p>
+        </div>
+
+        <!-- Input Form -->
+        <form id="gradeForm" class="space-y-5">
+
+            <!-- Student Name -->
+            <div>
+                <label for="studentName"
+                       class="block text-gray-700 font-semibold mb-2">
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter student name"
+                    required
+                    class="w-full border border-gray-300 rounded-lg px-4 py-3
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Subject 1 -->
+            <div>
+                <label for="maths"
+                       class="block text-gray-700 font-semibold mb-2">
+                    Mathematics (Out of 100)
+                </label>
+
+                <input
+                    type="number"
+                    id="maths"
+                    placeholder="Enter marks"
+                    min="0"
+                    max="100"
+                    step="any"
+                    required
+                    class="marks-input w-full border border-gray-300 rounded-lg
+                           px-4 py-3 focus:outline-none focus:ring-2
+                           focus:ring-blue-500">
+            </div>
+
+            <!-- Subject 2 -->
+            <div>
+                <label for="science"
+                       class="block text-gray-700 font-semibold mb-2">
+                    Science (Out of 100)
+                </label>
+
+                <input
+                    type="number"
+                    id="science"
+                    placeholder="Enter marks"
+                    min="0"
+                    max="100"
+                    step="any"
+                    required
+                    class="marks-input w-full border border-gray-300 rounded-lg
+                           px-4 py-3 focus:outline-none focus:ring-2
+                           focus:ring-blue-500">
+            </div>
+
+            <!-- Subject 3 -->
+            <div>
+                <label for="english"
+                       class="block text-gray-700 font-semibold mb-2">
+                    English (Out of 100)
+                </label>
+
+                <input
+                    type="number"
+                    id="english"
+                    placeholder="Enter marks"
+                    min="0"
+                    max="100"
+                    step="any"
+                    required
+                    class="marks-input w-full border border-gray-300 rounded-lg
+                           px-4 py-3 focus:outline-none focus:ring-2
+                           focus:ring-blue-500">
+            </div>
+
+            <!-- Calculate Button -->
+            <button
+                type="submit"
+                class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg
+                       hover:bg-blue-700 active:scale-95 transition">
+                Calculate Result
+            </button>
+
+            <button
+                type="reset"
+                class="w-full border border-gray-300 text-gray-700 font-semibold
+                       py-3 rounded-lg hover:bg-gray-100 transition">
+                Clear Form
+            </button>
+
+        </form>
+
+        <!-- Result Section -->
+        <div id="result"
+             class="hidden result-box mt-7 p-5 rounded-xl border
+                    border-blue-200 bg-blue-50"
+             aria-live="polite">
+
+            <h2 class="text-xl font-bold text-blue-800 text-center mb-4">
+                Student Result
+            </h2>
+
+            <div class="space-y-3 text-gray-700">
+                <p>Student: <strong id="resultName"></strong></p>
+                <p>Total Marks: <strong id="total"></strong> / 300</p>
+                <p>Percentage: <strong id="percentage"></strong></p>
+                <p>Grade: <strong id="grade"></strong></p>
+                <p>Status: <strong id="status"></strong></p>
+            </div>
+
+        </div>
+
+        <p class="text-center text-gray-400 text-xs mt-6">
+            Student Result Management • Practical Project
+        </p>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const form = document.getElementById("gradeForm");
+        const result = document.getElementById("result");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Get student name
+            const name = document.getElementById("studentName")
+                                     .value.trim();
+
+            // Get marks
+            const maths = Number(document.getElementById("maths").value);
+            const science = Number(document.getElementById("science").value);
+            const english = Number(document.getElementById("english").value);
+
+            const marks = [maths, science, english];
+
+            // Validate marks
+            if (
+                !name ||
+                marks.some(mark => !Number.isFinite(mark) ||
+                                   mark < 0 || mark > 100) ||
+                marks.some((mark, index) =>
+                    document.querySelectorAll(".marks-input")[index].value === "")
+            ) {
+                alert("Please enter a valid name and marks between 0 and 100.");
+                return;
+            }
+
+            // Calculate total and percentage
+            const total = maths + science + english;
+            const percentage = (total / 300) * 100;
+
+            // Determine grade
+            let grade;
+
+            if (marks.some(mark => mark < 35)) {
+                grade = "F";
+            } else if (percentage >= 90) {
+                grade = "A+";
+            } else if (percentage >= 80) {
+                grade = "A";
+            } else if (percentage >= 70) {
+                grade = "B";
+            } else if (percentage >= 60) {
+                grade = "C";
+            } else if (percentage >= 50) {
+                grade = "D";
+            } else {
+                grade = "F";
+            }
+
+            // Determine pass or fail
+            const status = grade === "F" ? "FAIL" : "PASS";
+
+            // Display result
+            document.getElementById("resultName").textContent = name;
+            document.getElementById("total").textContent = total;
+            document.getElementById("percentage").textContent =
+                percentage.toFixed(2) + "%";
+            document.getElementById("grade").textContent = grade;
+            document.getElementById("status").textContent = status;
+
+            // Update result colors
+            result.className = "result-box mt-7 p-5 rounded-xl border " +
+                (status === "PASS"
+                    ? "bg-green-50 border-green-300"
+                    : "bg-red-50 border-red-300");
+
+            document.getElementById("status").className =
+                status === "PASS" ? "text-green-700" : "text-red-700";
+
+            result.classList.remove("hidden");
+        });
+
+        // Clear the result when the form is reset
+        form.addEventListener("reset", function() {
+            result.classList.add("hidden");
+        });
+    </script>
+
+</body>
+</html>
